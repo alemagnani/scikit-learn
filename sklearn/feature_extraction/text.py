@@ -565,7 +565,9 @@ class CountVectorizer(BaseEstimator, VectorizerMixin):
     vocabulary : Mapping or iterable, optional
         Either a Mapping (e.g., a dict) where keys are terms and values are
         indices in the feature matrix, or an iterable over terms. If not
-        given, a vocabulary is determined from the input documents.
+        given, a vocabulary is determined from the input documents. Indices in the Mapping
+        can be repeated but should not have any gap between 0 and the max index in the Mapping.
+        The feature name for a repeated index will be the join of the keys in the custom vocabulary.
 
     binary : boolean, False by default.
         If True, all non zero counts are set to 1. This is useful for discrete
@@ -640,8 +642,6 @@ class CountVectorizer(BaseEstimator, VectorizerMixin):
             if not vocabulary:
                 raise ValueError("empty vocabulary passed to fit")
             indices = set(vocabulary.values())
-            if len(indices) != len(vocabulary):
-                raise ValueError("the vocabulary contains repeated indices")
             for i in xrange(len(vocabulary)):
                 if i not in indices:
                     raise ValueError("the vocabulary of size %d, doesn't contain index %d" % (len(vocabulary),i))
@@ -742,7 +742,7 @@ class CountVectorizer(BaseEstimator, VectorizerMixin):
         values = np.ones(len(j_indices))
 
         X = sp.csr_matrix((values, j_indices, indptr),
-                          shape=(len(indptr) - 1, len(vocabulary)),
+                          shape=(len(indptr) - 1,  max(vocabulary.itervalues()) + 1),
                           dtype=self.dtype)
         X.sum_duplicates()
         return vocabulary, X
