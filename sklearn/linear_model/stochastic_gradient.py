@@ -25,6 +25,7 @@ from ..utils import compute_class_weight
 from .sgd_fast import Hinge
 from .sgd_fast import SquaredHinge
 from .sgd_fast import Log
+from .sgd_fast import Poisson
 from .sgd_fast import ModifiedHuber
 from .sgd_fast import SquaredLoss
 from .sgd_fast import Huber
@@ -326,6 +327,7 @@ class BaseSGDClassifier(six.with_metaclass(ABCMeta, BaseSGD,
         "squared_hinge": (SquaredHinge, 1.0),
         "perceptron": (Hinge, 0.0),
         "log": (Log, ),
+        "poisson": (Poisson, ),
         "modified_huber": (ModifiedHuber, ),
         "squared_loss": (SquaredLoss, ),
         "huber": (Huber, DEFAULT_EPSILON),

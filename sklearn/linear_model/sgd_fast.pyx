@@ -223,6 +223,29 @@ cdef class Log(Classification):
     def __reduce__(self):
         return Log, ()
 
+cdef class Poisson(Classification):
+    """Poisson regression with y > 0"""
+
+    cdef double loss(self, double p, double y) nogil:
+        cdef double z = p * y
+        # approximately equal and saves the computation of the log
+        if p > 18:
+            return exp(p)
+        if p < -18:
+            return -z
+        return -z + exp(p)
+
+    cdef double _dloss(self, double p, double y) nogil:
+        # approximately equal and saves the computation of the log
+        if z > 18.0:
+            return exp(p)
+        if z < -18.0:
+            return -y
+        return -y + exp(p)
+
+    def __reduce__(self):
+        return Poisson, ()
+
 
 cdef class SquaredLoss(Regression):
     """Squared loss traditional used in linear regression."""
