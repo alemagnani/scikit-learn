@@ -327,7 +327,6 @@ class BaseSGDClassifier(six.with_metaclass(ABCMeta, BaseSGD,
         "squared_hinge": (SquaredHinge, 1.0),
         "perceptron": (Hinge, 0.0),
         "log": (Log, ),
-        "poisson": (Poisson, ),
         "modified_huber": (ModifiedHuber, ),
         "squared_loss": (SquaredLoss, ),
         "huber": (Huber, DEFAULT_EPSILON),
@@ -838,6 +837,7 @@ class BaseSGDRegressor(BaseSGD, RegressorMixin):
 
     loss_functions = {
         "squared_loss": (SquaredLoss, ),
+        "poisson": (Poisson, ),
         "huber": (Huber, DEFAULT_EPSILON),
         "epsilon_insensitive": (EpsilonInsensitive, DEFAULT_EPSILON),
         "squared_epsilon_insensitive": (SquaredEpsilonInsensitive,
