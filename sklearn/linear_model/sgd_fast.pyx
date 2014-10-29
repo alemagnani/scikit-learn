@@ -237,9 +237,9 @@ cdef class Poisson(Classification):
 
     cdef double _dloss(self, double p, double y) nogil:
         # approximately equal and saves the computation of the log
-        if z > 18.0:
+        if p > 18.0:
             return exp(p)
-        if z < -18.0:
+        if p < -18.0:
             return -y
         return -y + exp(p)
 
