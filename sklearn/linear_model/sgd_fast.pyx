@@ -223,7 +223,7 @@ cdef class Log(Classification):
     def __reduce__(self):
         return Log, ()
 
-cdef class Poisson(Classification):
+cdef class Poisson(Regression):
     """Poisson regression with y > 0"""
 
     cdef double loss(self, double p, double y) nogil:

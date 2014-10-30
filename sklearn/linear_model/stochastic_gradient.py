@@ -988,7 +988,14 @@ class BaseSGDRegressor(BaseSGD, RegressorMixin):
 
         scores = safe_sparse_dot(X, self.coef_.T,
                                  dense_output=True) + self.intercept_
-        return scores.ravel()
+        out = scores.ravel()
+
+        if self.loss == 'poisson':
+            print 'poisson decision function'
+            return np.exp(out)
+        else:
+            print 'regular decision function'
+            return out
 
     def predict(self, X):
         """Predict using the linear model
